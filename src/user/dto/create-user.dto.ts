@@ -1,4 +1,6 @@
-import { IsEmail, IsMobilePhone, IsNotEmpty } from "class-validator"
+import { IsEmail, IsNotEmpty } from "class-validator"
+import { IsUniqueField } from '../../rules/unique-field.rule'
+
 export class CreateUserDto {
     @IsNotEmpty({ message: '请输入用户名' })
     username: string
@@ -7,8 +9,6 @@ export class CreateUserDto {
     password: string
 
     @IsEmail()
-    email?: string;
-
-    @IsMobilePhone('zh-CN')
-    mobile: string;
+    @IsUniqueField('user', { message: '该邮箱已被注册' })
+    email: string;
 }

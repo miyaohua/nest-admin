@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
+import { unifiedResponse } from '../model/response.model'
 
 
 @Injectable()
@@ -18,10 +19,7 @@ export class TransformInterceptor implements NestInterceptor {
     ): Observable<any> {
         return next.handle().pipe(
             map((data) => {
-                return {
-                    code: HttpStatus.OK,
-                    data: data || null
-                }
+                return new unifiedResponse(HttpStatus.OK, data ?? null)
             }),
         )
     }
