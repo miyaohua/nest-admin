@@ -19,8 +19,8 @@ model User {
   id        Int        @id @default(autoincrement())
   username  String
   password  String
-  email     String     @unique
-  mobile    Int        @unique
+  email     String?     @unique
+  mobile    String     @unique
   createdAt DateTime   @default(now())
   UserRole  UserRole[]
 }
