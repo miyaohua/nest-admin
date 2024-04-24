@@ -1,12 +1,14 @@
 import { PrismaClient } from '@prisma/client'
+import { hash } from 'argon2';
 const prisma = new PrismaClient()
+
 
 // 初始化(用户、角色、权限)
 async function mainRBAC() {
     let user = await prisma.user.create({
         data: {
             username: 'admin',
-            password: 'mi010409',
+            password: await hash('mi010409'),
             email: 'admin@vpske.cn'
         }
     })
@@ -40,7 +42,7 @@ async function mainRBAC() {
             permissionId: permission.id
         }
     })
-    console.log(user, role, permission, '用户、角色、权限关联数据')
+    console.log(userOrRole, roleOrPermission, '用户、角色、权限关联数据')
 }
 
 mainRBAC()
