@@ -18,7 +18,7 @@ export class TransformInterceptor implements NestInterceptor {
         next: CallHandler<any>,
     ): Observable<any> {
         return next.handle().pipe(
-            map((data) => {
+            map((data: any) => {
                 return new unifiedResponse(HttpStatus.OK, data ?? null)
             }),
         )

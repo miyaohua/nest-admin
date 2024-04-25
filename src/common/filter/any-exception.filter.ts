@@ -4,6 +4,7 @@
 
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
+import { bussException } from '../exception/buss.exception';
 
 interface myError {
   readonly status: number
@@ -14,6 +15,7 @@ interface myError {
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
+    console.log(exception);
 
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -25,10 +27,12 @@ export class AllExceptionFilter implements ExceptionFilter {
       || (exception as myError)?.message
       || `${exception}`
 
+    // 自定义异常（业务code 500）
+    let errorCode = exception instanceof bussException ? exception.getErrorCode() : status
 
     // 通用返回结果
     const baseResponse = {
-      code: status,
+      code: errorCode,
       message,
       data: null
     }

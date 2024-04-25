@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { IsUniqueField } from '../../rules/unique-field.rule'
+import { IsUniqueField } from '../../common/rules/unique-field.rule'
 
 export class CreateUserDto {
     @IsNotEmpty({ message: '请输入用户名' })
