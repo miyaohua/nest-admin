@@ -21,8 +21,8 @@ async function mainRBAC() {
 
     let permission = await prisma.permission.create({
         data: {
-            name: 'create-user',
-            desc: '新增用户'
+            name: 'create-permission',
+            desc: '新增权限'
         }
     })
     console.log(user, role, permission, '生成的用户、角色、权限数据')

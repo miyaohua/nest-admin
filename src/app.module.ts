@@ -6,7 +6,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { AllExceptionFilter } from './common/filter/any-exception.filter'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor'
-import { JwtAuthGuard } from './common/jwt/jwt-auth.guard';
+import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
+import { PermissionGuard } from './common/guard/permission.guard';
 
 @Module({
   imports: [UserModule, RoleModule, PermissionModule, PrismaModule],
@@ -26,6 +27,11 @@ import { JwtAuthGuard } from './common/jwt/jwt-auth.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
+    },
+    // 权限
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard
     }
   ],
 })

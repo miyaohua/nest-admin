@@ -1,3 +1,3 @@
 export const SECRET = '---MIYAOHUA---'
 
-export const EXPIRESIN = '10s'
+export const EXPIRESIN = '3h'
