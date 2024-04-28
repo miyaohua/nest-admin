@@ -1,38 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
-import { RoleModule } from './role/role.module';
-import { PermissionModule } from './permission/permission.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
-import { AllExceptionFilter } from './common/filter/any-exception.filter'
-import { TransformInterceptor } from './common/interceptors/transform.interceptor'
-import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
-import { PermissionGuard } from './common/guard/permission.guard';
+import { UserModule } from './modules/user/user.module';
+import { RoleModule } from './modules/role/role.module';
+import { PermissionModule } from './modules/permission/permission.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
+import allConfig from './common/detachment/app.register'
 
 @Module({
   imports: [UserModule, RoleModule, PermissionModule, PrismaModule],
   controllers: [],
-  providers: [
-    // 全局异常过滤器
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionFilter,
-    },
-    // 全局拦截器(添加code,data)
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TransformInterceptor
-    },
-    // jwt
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard
-    },
-    // 权限
-    {
-      provide: APP_GUARD,
-      useClass: PermissionGuard
-    }
-  ],
+  providers: [...allConfig],
 })
+
 export class AppModule { }

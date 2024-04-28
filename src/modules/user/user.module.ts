@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from '../common/jwt/jwt.strategy';
-import { SECRET, EXPIRESIN } from '../constants/jwt.constant'
+import { JwtStrategy } from '../../common/jwt/jwt.strategy';
+import { SECRET, EXPIRESIN } from '../../constants/jwt.constant'
 
 @Module({
   imports: [

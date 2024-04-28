@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { hash, verify } from 'argon2';
-import { bussException } from '../common/exception/buss.exception'
+import { bussException } from '../../common/exception/buss.exception'
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

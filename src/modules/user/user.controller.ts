@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto'
-import { PublicAuth } from '../common/decorator/public.decorator';
-import { PermissionAuth } from '../common/decorator/permission.decorator'
+import { PublicAuth } from '../../common/decorator/public.decorator';
+import { PermissionAuth } from '../../common/decorator/permission.decorator'
 
 
 @Controller('user')
