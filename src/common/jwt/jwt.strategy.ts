@@ -1,10 +1,10 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { SECRET } from '../../constants/jwt.constant'
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaClient } from '@prisma/client'
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(private readonly prisma: PrismaService) {
+    constructor() {
         // 对应初始化passport-jwt策略的参数
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     async validate(payload: any) {
         // jwt鉴权通过后，会返回鉴权信息，然后将对象设置在req.user上面
-        const roleIds = this.getRolesByUser(payload.id)
+        const roleIds = await this.getRolesByUser(payload.id)
         return { userId: payload.id, username: payload.username, roleIds };
     }
 
@@ -25,7 +25,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
      * @returns 
      */
     async getRolesByUser(userId: number) {
-        const roleArr = await this.prisma.userRole.findMany({
+        const prisma = new PrismaClient()
+        const roleArr = await prisma.userRole.findMany({
             where: {
                 userId
             }

@@ -30,21 +30,22 @@ export class PermissionGuard implements CanActivate {
 
   /**
    * userId
-   * 通过用户id查询权限
+   * 通过用户角色是否包含需要权限
    */
-  async findRolesByIds(permissionKey: string, roleIds: number[]) {
+  async findRolesByIds(permissionKey: string, roleIds: any[]) {
     // 获取权限标识id
     const permission = await this.prisma.permission.findFirst({
       where: {
         name: permissionKey
       }
     })
-    // 查询当前权限需要角色id
-    const needRole = await this.prisma.rolePermission.findFirst({
+    // 查询当前权限需要角色id （权限可以被多个角色拥有）
+    const needRole = await this.prisma.rolePermission.findMany({
       where: {
         permissionId: permission.id
       }
     })
-    return roleIds.includes(needRole.roleId)
+
+    return needRole.some(r => roleIds.find(v => r === v));
   }
 }
