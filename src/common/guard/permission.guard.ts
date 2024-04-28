@@ -45,7 +45,6 @@ export class PermissionGuard implements CanActivate {
         permissionId: permission.id
       }
     })
-
-    return needRole.some(r => roleIds.find(v => r === v));
+    return needRole.some(r => roleIds.find(v => r.roleId === v));
   }
 }
