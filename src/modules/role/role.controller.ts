@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { AddRoleDto } from './dto/add-role.dto';
+import { PermissionAuth } from 'src/common/decorator/permission.decorator';
 
 @Controller('role')
 export class RoleController {
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService) { }
 
   @Post()
   create(@Body() createRoleDto: CreateRoleDto) {
@@ -13,8 +15,9 @@ export class RoleController {
   }
 
   @Get()
-  findAll() {
-    return this.roleService.findAll();
+  @PermissionAuth('query-role')
+  findAll(@Query() addRoleDto: AddRoleDto) {
+    return this.roleService.findAll(addRoleDto);
   }
 
   @Get(':id')

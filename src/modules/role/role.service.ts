@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { AddRoleDto } from './dto/add-role.dto';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
@@ -17,8 +18,31 @@ export class RoleService {
   }
 
   // 分页查询所有角色
-  findAll() {
-    return `This action returns all role`;
+  async findAll({ page, pageSize, name }: AddRoleDto) {
+    console.log(name, 'name--');
+
+    const skipRecords = (page - 1) * pageSize;
+    const total = await this.prisma.role.count({
+      where: {
+        name: {
+          contains: name
+        }
+      }
+    });
+    const data = await this.prisma.role.findMany({
+      where: {
+        name: {
+          contains: name
+        }
+      },
+      skip: Number(skipRecords) || 0,
+      take: Number(pageSize) || 0,
+    });
+
+    return {
+      list: data,
+      total
+    };
   }
 
   // 查询单个角色

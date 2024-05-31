@@ -25,6 +25,7 @@ export class UserService {
         username: loginUserDto.username
       }
     })
+    console.log(await hash(loginUserDto.password))
     if (!user) throw new bussException('该用户不存在')
     if (!await verify(user.password, loginUserDto.password)) {
       throw new bussException('密码校验错误')

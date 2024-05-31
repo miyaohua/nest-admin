@@ -5,6 +5,8 @@ import { HttpStatus, UnprocessableEntityException, ValidationPipe } from '@nestj
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors()
+
   // 全局管道
   app.useGlobalPipes(new ValidationPipe({
     transform: true,

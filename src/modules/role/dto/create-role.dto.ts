@@ -5,4 +5,7 @@ export class CreateRoleDto {
     @IsNotEmpty({ message: '请输入角色名称' })
     @IsUniqueField('role', { message: '该用户角色已被添加' })
     name: string
+
+    @IsNotEmpty({ message: '请输入角色描述' })
+    desc: string
 }

@@ -39,6 +39,9 @@ export class PermissionGuard implements CanActivate {
         name: permissionKey
       }
     })
+    // 没有找到当前权限
+    if (!permission?.id) return false;
+
     // 查询当前权限需要角色id （权限可以被多个角色拥有）
     const needRole = await this.prisma.rolePermission.findMany({
       where: {
