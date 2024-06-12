@@ -16,7 +16,8 @@ export class PermissionService {
     })
   }
 
-  findAll() {
+  async findAll() {
+    return await this.prisma.permissionGroup.findMany()
     return `This action returns all permission`;
   }
 

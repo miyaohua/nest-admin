@@ -10,6 +10,7 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) { }
 
   @Post()
+  @PermissionAuth('add-role')
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.roleService.create(createRoleDto);
   }
@@ -18,11 +19,6 @@ export class RoleController {
   @PermissionAuth('query-role')
   findAll(@Query() addRoleDto: AddRoleDto) {
     return this.roleService.findAll(addRoleDto);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roleService.findOne(+id);
   }
 
   @Patch(':id')
