@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 import { hash } from 'argon2';
 import { initRolePermission } from './initRolePermission'
 

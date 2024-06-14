@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient();
 
 // 初始化角色权限用户组和权限
