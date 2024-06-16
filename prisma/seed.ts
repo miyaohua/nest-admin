@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { hash } from 'argon2';
-import { initRolePermission } from './initRolePermission'
+import { initRole } from './initRole'
+import { initPermission } from './initPermission'
 
 const prisma = new PrismaClient();
 
@@ -32,7 +33,8 @@ async function seed() {
 
 
     // 初始化角色权限用户组和权限
-    initRolePermission(role)
+    initRole(role)
+    initPermission(role)
 }
 
 
