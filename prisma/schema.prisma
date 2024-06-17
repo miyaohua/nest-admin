@@ -29,6 +29,8 @@ model Role {
 model PermissionGroup {
   id         Int          @id @default(autoincrement())
   name       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   permission Permission[]
 }
 
@@ -36,6 +38,7 @@ model Permission {
   id                Int              @id @default(autoincrement())
   name              String           @unique
   desc              String
+  introduce         String
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
   permissionGroupId Int?
@@ -67,6 +70,7 @@ model RolePermission {
   permission   Permission @relation(fields: [permissionId], references: [id])
   role         Role       @relation(fields: [roleId], references: [id])
 
+  @@unique([roleId, permissionId], map: "RolePermission_roleId_permissionId_key")
   @@index([permissionId], map: "RolePermission_permissionId_fkey")
   @@index([roleId], map: "RolePermission_roleId_fkey")
 }

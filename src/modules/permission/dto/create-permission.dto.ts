@@ -7,4 +7,7 @@ export class CreatePermissionDto {
 
     @IsNotEmpty({ message: '权限描述不能为空' })
     desc: string
+
+    @IsNotEmpty({ message: '权限介绍不能为空' })
+    introduce: string
 }

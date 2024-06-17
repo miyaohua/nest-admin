@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { AddRoleDto } from './dto/add-role.dto';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 
 @Injectable()
@@ -18,22 +17,23 @@ export class RoleService {
   }
 
   // 分页查询所有角色
-  async findAll({ page, pageSize, name }: AddRoleDto) {
-    console.log(name, 'name--');
-
+  async findAll({ page, pageSize, name }) {
     const skipRecords = (page - 1) * pageSize;
     const total = await this.prisma.role.count({
       where: {
         name: {
           contains: name
-        }
+        },
       }
     });
     const data = await this.prisma.role.findMany({
       where: {
         name: {
           contains: name
-        }
+        },
+      },
+      orderBy: {
+        updatedAt: 'desc'
       },
       skip: Number(skipRecords) || 0,
       take: Number(pageSize) || 0,
@@ -45,18 +45,26 @@ export class RoleService {
     };
   }
 
-  // 查询单个角色
-  findOne(id: number) {
-    return `This action returns a #${id} role`;
-  }
-
   // 更新角色
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
+  async update(id: number, updateRoleDto: UpdateRoleDto) {
+    const updateRole = await this.prisma.role.update({
+      where: {
+        id
+      },
+      data: {
+        ...updateRoleDto
+      }
+    })
+    return updateRole
   }
 
   // 删除角色
   remove(id: number) {
-    return `This action removes a #${id} role`;
+    const delRole = this.prisma.role.delete({
+      where: {
+        id
+      }
+    })
+    return delRole
   }
 }
